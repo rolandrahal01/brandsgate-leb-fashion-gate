@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
-import { Heart, ShoppingBag, Star, Filter } from 'lucide-react';
+import { Heart, ShoppingBag, Star, Filter, Eye, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart, Product } from '@/contexts/CartContext';
+import { useToast } from '@/hooks/use-toast';
+import ProductModal from '@/components/ProductModal';
+import SearchBar from '@/components/SearchBar';
 import productsShowcase from '@/assets/products-showcase.jpg';
 
 const ProductsSection = () => {
   const { t, isRTL } = useLanguage();
   const { addToCart } = useCart();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFilters, setSearchFilters] = useState<any>({
+    brands: [],
+    categories: [],
+    colors: [],
+    sizes: [],
+    priceRange: [0, 1000]
+  });
 
   // Mock products data - in real app this would come from API
   const products: Product[] = [
@@ -91,13 +103,54 @@ const ProductsSection = () => {
     { id: 'accessories', label: 'Accessories' },
   ];
 
-  const filteredProducts = activeTab === 'all' 
-    ? products 
-    : products.filter(product => product.category === activeTab);
+  const filteredProducts = products.filter(product => {
+    // Filter by tab
+    if (activeTab !== 'all' && product.category.toLowerCase() !== activeTab.toLowerCase()) {
+      return false;
+    }
+    
+    // Filter by search query
+    if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase()) && 
+        !product.brand.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+    
+    // Filter by brands
+    if (searchFilters.brands.length > 0 && !searchFilters.brands.includes(product.brand)) {
+      return false;
+    }
+    
+    // Filter by categories
+    if (searchFilters.categories.length > 0 && !searchFilters.categories.includes(product.category)) {
+      return false;
+    }
+    
+    // Filter by colors
+    if (searchFilters.colors.length > 0 && !product.colors.some(color => searchFilters.colors.includes(color))) {
+      return false;
+    }
+    
+    // Filter by sizes
+    if (searchFilters.sizes.length > 0 && !product.sizes.some(size => searchFilters.sizes.includes(size))) {
+      return false;
+    }
+    
+    // Filter by price range
+    const totalPrice = product.price + product.serviceFee;
+    if (totalPrice < searchFilters.priceRange[0] || totalPrice > searchFilters.priceRange[1]) {
+      return false;
+    }
+    
+    return true;
+  });
 
   const handleAddToCart = (product: Product) => {
     // For demo, we'll use the first available color and size
     addToCart(product, product.colors[0], product.sizes[0]);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    });
   };
 
   return (
@@ -112,6 +165,15 @@ const ProductsSection = () => {
             Discover the latest fashion trends from your favorite global brands
           </p>
         </div>
+
+        {/* Search Bar */}
+        <SearchBar 
+          onSearch={(query, filters) => {
+            setSearchQuery(query);
+            setSearchFilters(filters);
+          }}
+          className="mb-8"
+        />
 
         {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-2 mb-12">
@@ -250,6 +312,13 @@ const ProductsSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Product Modal */}
+      <ProductModal 
+        product={selectedProduct}
+        isOpen={!!selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
     </section>
   );
 };
