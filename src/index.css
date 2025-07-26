@@ -8,35 +8,65 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* BrandsGate Design System - Fashion E-commerce */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 220 13% 13%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 13% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 13% 13%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Navy blue primary for sophistication */
+    --primary: 220 39% 11%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Soft gray secondary */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 13%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Cedar green accent for Lebanese touch */
+    --accent: 137 72% 94%;
+    --accent-foreground: 137 84% 15%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Gold accent for luxury feel */
+    --gold: 43 96% 56%;
+    --gold-foreground: 43 96% 9%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Bright highlight for CTAs */
+    --highlight: 339 90% 51%;
+    --highlight-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 39% 11%;
+
+    /* Success for trust badges */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+
+    /* Gradients for hero sections */
+    --gradient-primary: linear-gradient(135deg, hsl(220 39% 11%), hsl(220 39% 21%));
+    --gradient-gold: linear-gradient(135deg, hsl(43 96% 56%), hsl(43 96% 76%));
+    --gradient-hero: linear-gradient(135deg, hsl(220 39% 11%) 0%, hsl(220 29% 16%) 50%, hsl(137 84% 15%) 100%);
+    
+    /* Shadows for cards and elevation */
+    --shadow-soft: 0 2px 8px hsl(220 13% 13% / 0.06);
+    --shadow-medium: 0 4px 16px hsl(220 13% 13% / 0.1);
+    --shadow-strong: 0 8px 32px hsl(220 13% 13% / 0.15);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
